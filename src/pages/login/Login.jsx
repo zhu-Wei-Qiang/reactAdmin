@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import { Form, Input, Button, message } from 'antd';
+import { Redirect } from 'react-router';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import {reqLogin} from '../../api'
 import {fangdou} from '../../utils/tools'
 import './login.less'
-import logo from './images/logo.png'
+import logo from '../../assets/images/logo.png'
+import memoryUtils from '../../utils/memoryUtils'
+import storageUtils from '../../utils/storageUtils'
 
 const Item = Form.Item;
 
@@ -25,7 +28,12 @@ export default class Login extends Component {
         const result = await reqLogin(event);
         if(result.status){
             message.success('登录成功',0.5)
-
+            const user = {
+                _id: '001',
+                name:'朱某'
+            };
+            memoryUtils.user = user;  //保存到内存中
+            storageUtils.saveUser(user) // 保存到local中
             // 跳转到管理页面  登陆页面只进一次 不回退
             this.props.history.replace('/')
         }else{
@@ -36,6 +44,9 @@ export default class Login extends Component {
  
 
     render() {
+        if(memoryUtils.user._id){
+            return <Redirect to='/'/> 
+        }
         return (
             <div className='login'>
                 <header className='login-header'>
