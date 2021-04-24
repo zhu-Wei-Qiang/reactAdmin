@@ -14,6 +14,6 @@ module.exports = override(
   }),
   addLessLoader({
     javascriptEnabled: true,  // 允许修改主题颜色
-    modifyVars: { '@primary-color': 'orange' }, //modify修改 var变量
+    modifyVars: { '@primary-color': '#1DA57A' }, //modify修改 var变量
   }),
 );
